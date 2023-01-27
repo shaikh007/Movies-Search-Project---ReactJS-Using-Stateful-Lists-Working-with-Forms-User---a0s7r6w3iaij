@@ -4,11 +4,20 @@ import { movies } from "../utils/movieList";
 
 const App = () => {
   const [inputValue, setInputValue] = useState("");
-  const [results, setResult] = useState(null);
+  const [results, setResult] = useState(movies);
+  const [filterResult, setFilterResult] = useState([]);
 
-  function handleClick(e) {}
+  function handleClick(e) {
+    e.preventDefault();
+    let res = results.filter((val) =>
+      val.title.toLowerCase().includes(inputValue)
+    );
+    setFilterResult(res);
+  }
 
-  function handleChange(e) {}
+  function handleChange(e) {
+    setInputValue(e.target.value);
+  }
 
   return (
     <div id="main">
@@ -24,8 +33,12 @@ const App = () => {
         </button>
       </form>
       <div id="result">
-        {results &&
-          results.map((movie) => <div className="movie">{movie}</div>)}
+        {filterResult &&
+          filterResult.map((movie) => (
+            <div key={movie.id} className="movie">
+              {movie.title}
+            </div>
+          ))}
       </div>
     </div>
   );
